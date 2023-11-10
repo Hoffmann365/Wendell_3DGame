@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     
     private CharacterController controller;
-    public float totalHealth;
+    public int totalHealth;
     public float speed;
     public float gravity;
     public float damage;
@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameController.instance.UpdateLives(totalHealth);
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         cam = Camera.main.transform;
@@ -157,9 +158,10 @@ public class Player : MonoBehaviour
         }
     }
     
-    public void GetHit(float damage)
+    public void GetHit(int damage)
     {
         totalHealth -= damage;
+        GameController.instance.UpdateLives(totalHealth);
         if (totalHealth > 0)
         {
             //player vivo
@@ -171,9 +173,8 @@ public class Player : MonoBehaviour
         else
         {
             //player morre
-            isDead = true;
-            anim.SetTrigger("die");
-            
+            StartCoroutine("Die");
+
         }
     }
 
@@ -184,6 +185,14 @@ public class Player : MonoBehaviour
         waitFor = false;
         hiting = false;
         anim.SetBool("attacking", false);
+    }
+
+    IEnumerator Die()
+    {
+        isDead = true;
+        anim.SetTrigger("die");
+        yield return new WaitForSeconds(4f);
+        GameController.instance.RestartGame();
     }
 
     private void OnDrawGizmosSelected()

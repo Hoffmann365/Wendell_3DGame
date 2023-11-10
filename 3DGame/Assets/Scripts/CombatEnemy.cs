@@ -9,7 +9,7 @@ public class CombatEnemy : MonoBehaviour
 {
     [Header("Atributtes")] 
     public float totalHealth;
-    public float attackDamage;
+    public int attackDamage;
     public float movementSpeed;
     public float lookRadius;
     public float ColliderRadius;
@@ -170,9 +170,8 @@ public class CombatEnemy : MonoBehaviour
         else
         {
             //inimigo morre
-            alive = false;
-            anim.SetTrigger("Die");
-            
+            StartCoroutine("Die");
+
         }
     }
 
@@ -183,6 +182,14 @@ public class CombatEnemy : MonoBehaviour
         anim.SetBool("Bite Attack", false);
         waitFor = false;
         hiting = false;
+    }
+
+    IEnumerator Die()
+    {
+        alive = false;
+        anim.SetTrigger("Die");
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 
     void LookTarget()
