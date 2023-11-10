@@ -98,20 +98,24 @@ public class CombatEnemy : MonoBehaviour
 
     void MoveToWayPoint()
     {
-        if (wayPoints.Count > 0)
+        if (alive)
         {
-            float distance = Vector3.Distance(wayPoints[currentPathIndex].position, transform.position);
-            agent.destination = wayPoints[currentPathIndex].position;
-            if (distance <= pathDistance)
+            if (wayPoints.Count > 0)
             {
-                //parte para o próximo ponto
-                currentPathIndex = Random.Range(0, wayPoints.Count);
+                float distance = Vector3.Distance(wayPoints[currentPathIndex].position, transform.position);
+                agent.destination = wayPoints[currentPathIndex].position;
+                if (distance <= pathDistance)
+                {
+                    //parte para o próximo ponto
+                    currentPathIndex = Random.Range(0, wayPoints.Count);
 
-            }
+                }
             
-            anim.SetBool("Run Forward", true);
-            walking = true;
+                anim.SetBool("Run Forward", true);
+                walking = true;
+            }
         }
+        
     }
     
     IEnumerator Attack()
