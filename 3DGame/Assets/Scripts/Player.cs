@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public AudioSource hitsound;
     public AudioSource diesound;
     public AudioSource bgsound;
+    public AudioSource atksound;
 
     public float smoothRotTime;
     private float turnSmoothVelocity;
@@ -130,7 +131,7 @@ public class Player : MonoBehaviour
             anim.SetInteger("transition", 2);
 
             yield return new WaitForSeconds(0.4f);
-
+            
             GetEnemiesList();
 
             foreach (Transform e in enemyList)
@@ -141,7 +142,7 @@ public class Player : MonoBehaviour
                     enemy.GetHit(damage);
                 }
             }
-
+            atksound.Play();
             yield return new WaitForSeconds(1f);
 
             anim.SetInteger("transition", 0);
