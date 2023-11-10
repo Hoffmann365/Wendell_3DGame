@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     public int totalScore;
 
     public static GameController instance;
+    
+    public GameObject finishObj;
+
+    public AudioSource sound;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,7 +30,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Congratulations();
     }
     
     public void UpdateScore(int value)
@@ -45,5 +49,21 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(0);
+    }
+    
+    public void Congratulations()
+    {
+        if (score == 6)
+        {
+            StartCoroutine("Finish");
+        }
+    }
+    
+    IEnumerator Finish()
+    {
+        yield return new WaitForSeconds(1.5f);
+        sound.mute = true;
+        finishObj.SetActive(true);
+        Time.timeScale = 0f;
     }
 }

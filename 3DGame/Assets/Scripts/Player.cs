@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
 
     private Vector3 moveDirection;
 
+    public AudioSource hitsound;
+    public AudioSource diesound;
+    public AudioSource bgsound;
+
     public float smoothRotTime;
     private float turnSmoothVelocity;
     private bool isWalking;
@@ -167,6 +171,7 @@ public class Player : MonoBehaviour
             //player vivo
             StopCoroutine("Attack");
             anim.SetInteger("transition", 3);
+            hitsound.Play();
             hiting = true;
             StartCoroutine("RecoveryFromHit");
         }
@@ -190,6 +195,9 @@ public class Player : MonoBehaviour
     IEnumerator Die()
     {
         isDead = true;
+        Destroy(controller);
+        bgsound.mute = true;
+        diesound.Play();
         anim.SetTrigger("die");
         yield return new WaitForSeconds(4f);
         GameController.instance.RestartGame();
